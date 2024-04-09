@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta http-equiv="refresh" content="20">
+
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <title>Display DHT11 Data</title>
+</head>
+<body>
+    <div class="text-center text-4xl font-bold m-20"><i class="fa-solid fa-microchip mr-2 text-green-700"></i>Reading DHT22 data from Thingspeak Server</div>
+    
+    <section class="grid grid-cols-2 gap-4 text-center my-10 mx-20">
+        <div class="p-10 border border-2 border-yellow-400 rounded-xl shadow shadow-yellow-400">
+            <div class="text-2xl font-bold text-red-600 mb-20">Temperature <i class="fa-solid fa-temperature-low ml-2"></i></div>
+            <div class="text-2xl font-bold " id="field1Data"></div>
+        </div>
+        <div class="p-10 border border-2 border-yellow-400 rounded-xl shadow shadow-yellow-400">
+            <div class="text-2xl font-bold text-indigo-600 mb-20">Humidity <i class="fa-solid fa-droplet ml-2"></i></div>
+            <div class="text-2xl font-bold " id="field2Data"></div>
+        </div>
+    </section>
+    
+    
+
+    <script>
+        // Fetch data for field1
+        fetch('https://api.thingspeak.com/channels/1921629/fields/1.json?results=1')
+            .then(response => response.json())
+            .then(data => {
+                // Extract field1 data from the response
+                const field1Data = data.feeds[0].field1;
+
+                // Display the field1 data on the webpage
+                document.getElementById('field1Data').innerText = `${field1Data}`;
+            })
+            .catch(error => {
+                console.error('Error fetching field1 data:', error);
+            });
+
+        // Fetch data for field2
+        fetch('https://api.thingspeak.com/channels/1921629/fields/2.json?results=1')
+            .then(response => response.json())
+            .then(data => {
+                // Extract field2 data from the response
+                const field2Data = data.feeds[0].field2;
+
+                // Display the field2 data on the webpage
+                document.getElementById('field2Data').innerText = `${field2Data}`;
+            })
+            .catch(error => {
+                console.error('Error fetching field2 data:', error);
+            });
+    </script>
+</body>
+</html>
